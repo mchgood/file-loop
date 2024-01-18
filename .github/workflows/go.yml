@@ -30,7 +30,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}  # 使用新的密钥 名称
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}  # 使用新的密钥名称
 
       - name: Upload Release Artifact
         uses: actions/upload-release-asset@v1

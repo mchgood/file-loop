@@ -24,8 +24,8 @@ jobs:
 
       - name: Build and package
         run: |
-          go build -o file-lookup
-          mv file-lookup ${{ github.workspace }}/file-lookup
+          go build -o ${{ github.workspace }}/file-lookup
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:

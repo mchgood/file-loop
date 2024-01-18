@@ -59,8 +59,10 @@ func ListFiles(dirPath string) ([]FileInfo, error) {
 			}
 			// 跳过自身
 			if strings.Contains(fileInfo.Name, "file-lookup") {
+				fmt.Printf("skip file %s\n", fileInfo.Name)
 				continue
 			}
+			fmt.Printf("find file %s\n", fileInfo.Name)
 			fileList = append(fileList, fileInfo)
 		}
 	}

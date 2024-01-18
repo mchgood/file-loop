@@ -1,4 +1,4 @@
-name: Build and Release
+name: Build
 
 on:
   push:
@@ -26,23 +26,9 @@ jobs:
         run: |
           go build -o ${{ github.workspace }}/file-lookup
 
-      - name: Create or Update Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
         with:
-          tag_name: v${{ github.run_number }}
-          release_name: Release v${{ github.run_number }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/file-lookup
-          asset_name: file-lookup-${{ matrix.os }}
-          asset_content_type: application/octet-stream
+          name: file-lookup-${{ matrix.os }}
+          path: |
+            ${{ github.workspace }}/file-lookup

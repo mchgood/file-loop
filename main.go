@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type FileInfo struct {
@@ -14,6 +15,13 @@ type FileInfo struct {
 }
 
 func main() {
+	// 删除已存在的 out.json 文件
+	err := os.Remove("out.json")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
 	files, err := ListFiles(".")
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -50,7 +58,7 @@ func ListFiles(dirPath string) ([]FileInfo, error) {
 				Name: file.Name(),
 			}
 			// 跳过自身
-			if fileInfo.Name == "file-lookup" {
+			if strings.Contains(fileInfo.Name, "file-lookup") {
 				continue
 			}
 			fileList = append(fileList, fileInfo)

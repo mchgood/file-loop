@@ -17,7 +17,7 @@ type FileInfo struct {
 func main() {
 	// 删除已存在的 out.json 文件
 	err := os.Remove("out.json")
-	if err != nil {
+	if err != nil && !os.IsNotExist(err) {
 		fmt.Println("Error:", err)
 		return
 	}

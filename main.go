@@ -49,6 +49,10 @@ func ListFiles(dirPath string) ([]FileInfo, error) {
 				Path: filepath.Join(dirPath, file.Name()),
 				Name: file.Name(),
 			}
+			// 跳过自身
+			if fileInfo.Name == "file-lookup" {
+				continue
+			}
 			fileList = append(fileList, fileInfo)
 		}
 	}

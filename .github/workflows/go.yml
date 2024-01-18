@@ -1,34 +1,25 @@
-name: Build
+name: build
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [created] # 表示在创建新的 Release 时触发
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
+  build-go-binary:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-        go-version: [1.16.x]
-
+        goos: [linux, windows, darwin] # 需要打包的系统
+        goarch: [amd64, arm64] # 需要打包的架构
+        exclude: # 排除某些平台和架构
+          - goarch: arm64
+            goos: windows
     steps:
-      - name: Set up Go
-        uses: actions/setup-go@v2
+      - uses: actions/checkout@v3
+      - uses: wangyoucao577/go-release-action@v1.30
         with:
-          go-version: ${{ matrix.go-version }}
-
-      - name: Check out code
-        uses: actions/checkout@v2
-
-      - name: Build and package
-        run: |
-          go build -o ${{ github.workspace }}/file-lookup
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: file-lookup-${{ matrix.os }}
-          path: |
-            ${{ github.workspace }}/file-lookup
+          github_token: ${{ secrets.GITHUB_TOKEN }} # 一个默认的变量，用来实现往 Release 中添加文件
+          goos: ${{ matrix.goos }}
+          goarch: ${{ matrix.goarch }}
+          goversion: 1.18 # 可以指定编译使用的 Golang 版本
+          binary_name: "file-lookup" # 可以指定二进制文件的名称

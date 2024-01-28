@@ -5,12 +5,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path/filepath"
 	"strings"
 )
 
 type FileInfo struct {
-	Path string `json:"path"`
+	//Path string `json:"path"`
 	Name string `json:"name"`
 }
 
@@ -54,7 +53,7 @@ func ListFiles(dirPath string) ([]FileInfo, error) {
 	for _, file := range files {
 		if !file.IsDir() {
 			fileInfo := FileInfo{
-				Path: filepath.Join(dirPath, file.Name()),
+				//Path: filepath.Join(dirPath, file.Name()),
 				Name: file.Name(),
 			}
 			// 跳过自身
